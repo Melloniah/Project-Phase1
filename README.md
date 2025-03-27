@@ -18,3 +18,4 @@ The price they see is readonly, so users cannot change.
 As the admin, i can add, delete and update the user/travellers info
 As the admin i can also see the number of travellers who have booked , travel dates and their destinations.
 
+The user can whatsapp me from the footer contact section

@@ -49,6 +49,14 @@
       "destination": "Watamu Beaches",
       "date": "2025-04-04",
       "people": "3"
+    },
+    {
+      "id": "6097",
+      "name": "Makeda Mwolovi",
+      "email": "makkmwolovi@gmail.com",
+      "destination": "Camping in the Wild",
+      "date": "2025-03-05",
+      "people": "1"
     }
   ],
   "reviews": [
@@ -59,18 +67,13 @@
       "text": "Awesome tours"
     },
     {
-      "id": 1742994186259,
+      "id": "1742994186259",
       "name": "Dennis",
       "rating": "4",
       "text": "nice"
     }
   ],
-
-
-  "users": [] ,
-
-
-  
+  "users": [],
   "admins": [
     {
       "id": "1",
