@@ -12,6 +12,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    //defining book tour globally for it to be called
+    function bookTour() {
+        window.location.href = "#tourForm"; // Scrolls to the booking form
+    }
+    
+    // So that it's globally accessible
+    window.bookTour = bookTour;
+
     // Search Functionality
     function searchDestination() {
         let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
