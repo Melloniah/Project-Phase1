@@ -13,35 +13,51 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Search bar functionality
-    // Search bar functionality
-function searchDestination() {
-    let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
-
-    fetch("http://localhost:3000/destinations") // Fetch from JSON Server
-    .then(response => response.json())
-    .then(destinations => {
-        let destinationNames = destinations.map(dest => dest.name.toLowerCase());
-
-        if (destinationNames.includes(searchInput)) {
-            alert(`We have tours to ${searchInput.charAt(0).toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve your spot.`);
-        } else {
-            alert("Sorry, we don’t offer services there yet. Continue exploring!");
+    
+    function searchDestination() {
+        let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
+    
+        if (!searchInput) {
+            alert("Please enter a destination to search.");
+            return;
         }
-    })
-    .catch(error => {
-        console.error("Error fetching destinations:", error);
-        alert("Could not check destinations. Try again later.");
-    });
-}
-
-// Attach event listeners to search button and Enter key
-document.querySelector(".search-btn").addEventListener("click", searchDestination);
-document.querySelector(".search-bar").addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        searchDestination();
+    
+        fetch("http://localhost:3000/destinations")
+            .then(response => response.json())
+            .then(destinations => {
+                let foundDestination = destinations.find(dest => dest.name.toLowerCase().includes(searchInput));
+    
+                if (foundDestination) {
+                    alert(`We have tours to ${foundDestination.name}! Click 'Book' to reserve your spot.`);
+                } else {
+                    alert("Sorry, we don’t offer services there yet. Please continue searching!");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching destinations:", error);
+                alert("Could not check destinations. Try again later.");
+            });
     }
-});
+    
+    // Attach event listeners when the page loads
+   
+        let searchButton = document.querySelector(".search-btn");
+        let searchBar = document.querySelector(".search-bar");
+    
+        if (searchButton) {
+            searchButton.addEventListener("click", searchDestination);
+        }
+    
+        if (searchBar) {
+            searchBar.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    searchDestination();
+                }
+            });
+        }
+   
+    
 
 
     // Fetch destinations and update price when user selects a destination
