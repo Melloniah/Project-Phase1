@@ -15,7 +15,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // Search Functionality
     function searchDestination() {
         let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
-        let destinations = document.querySelectorAll(".destination .buttons .booking");
+        fetch("http://localhost:3000/destinations") // Fetch from JSON Server
+        .then(response => response.json())
+        .then(destinations => {
+            // Convert all destination names to lowercase for comparison
+            let destinationNames = destinations.map(dest => dest.name.toLowerCase());
+
+            if (destinationNames.includes(searchInput)) {
+                alert(`We have tours to ${searchInput.charAt(0).toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve your spot.`);
+            } else {
+                alert("Sorry, we don’t offer services there yet. Continue exploring!");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching destinations:", error);
+            alert("Could not check destinations. Try again later.");
+        });
+    }
 
         let availableDestinations = Array.from(destinations).map(button =>
             button.getAttribute("data-place").toLowerCase()
