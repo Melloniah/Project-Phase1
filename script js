@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // So that it's globally accessible
     window.bookTour = bookTour;
 
-    // Search Functionality
+    // Search bar at the nav bar functionality
     function searchDestination() {
         let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
         fetch("http://localhost:3000/destinations") // Fetch from JSON Server
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //Allowing event listener to search button
     document.querySelector(".search-btn").addEventListener("click", searchDestination);
 
-    // Allow pressing "Enter" to trigger search
+    // Allowing  pressing "Enter" to trigger search
     document.querySelector(".search-bar").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -197,14 +197,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+//Allowing user to see price when they book and to allow them to have other options in destination other than the drop down menu
+
 document.querySelectorAll(".booking").forEach(button => {
     button.addEventListener("click", function () {
-        let destination = this.getAttribute("data-place");
+        let destinationName = this.getAttribute("data-place");
         let price = this.getAttribute("data-price");
 
-        document.getElementById("destination").value = destination;
-        document.getElementById("price").value = `$${price}`;
+        let destinationSelect = document.getElementById("destination");
+        let priceInput = document.getElementById("price");
+
+        // Find the matching option in the dropdown and select it
+        let matchedOption = Array.from(destinationSelect.options).find(option => option.textContent === destinationName);
         
-        window.location.href = "#tourForm"; // Scroll to form
+        if (matchedOption) {
+            destinationSelect.value = matchedOption.value; // Select the correct destination
+            priceInput.value = `$${price}`;
+        } else {
+            alert("Destination not found. Please select from the dropdown.");
+        }
+
+        window.location.href = "#tourForm"; // Scroll to the form
     });
 });
+
