@@ -198,26 +198,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //Allowing user to see price when they book and to allow them to have other options in destination other than the drop down menu
-
 document.querySelectorAll(".booking").forEach(button => {
     button.addEventListener("click", function () {
-        let destinationName = this.getAttribute("data-place");
-        let price = this.getAttribute("data-price");
+        let destinationName = this.getAttribute("data-place"); // Get destination name
+        let price = this.getAttribute("data-price"); // Get price
 
-        let destinationSelect = document.getElementById("destination");
-        let priceInput = document.getElementById("price");
+        // Set values in the booking form
+        document.getElementById("destination").value = destinationName;
+        document.getElementById("price").value = `$${price}`;
 
-        // Find the matching option in the dropdown and select it
-        let matchedOption = Array.from(destinationSelect.options).find(option => option.textContent === destinationName);
-        
-        if (matchedOption) {
-            destinationSelect.value = matchedOption.value; // Select the correct destination
-            priceInput.value = `$${price}`;
-        } else {
-            alert("Destination not found. Please select from the dropdown.");
-        }
-
-        window.location.href = "#tourForm"; // Scroll to the form
+        // Scroll to the booking form
+        window.location.href = "#tourForm";
     });
 });
 
