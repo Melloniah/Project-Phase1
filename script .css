@@ -203,8 +203,8 @@ background: rgb(26, 94, 26);
 }
 
 .booking:hover, .user-review:hover {
-  transform: scale(1.05);
-}
+    transform: scale(1.05);
+  }
 
 
 .booking {
