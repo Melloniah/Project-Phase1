@@ -60,33 +60,55 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Booking Form Submission
-    const bookingForm = document.getElementById("tourForm");
-    if (bookingForm) {
-        bookingForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const destination = document.getElementById("destination").value;
-            const date = document.getElementById("date").value;
-            const people = document.getElementById("people").value;
-
-            const bookingData = { name, email, destination, date, people };
-
-            // Save to db.json
-            fetch("http://localhost:3000/bookings", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(bookingData)
+    document.getElementById("tourForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent page reload
+    
+        // Get form values
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const destination = document.getElementById("destination").value;
+        const date = document.getElementById("date").value;
+        const people = document.getElementById("people").value;
+    
+        // Check if the destination exists in the database
+        fetch("http://localhost:3000/destinations") // Fetch available destinations
+            .then(response => response.json())
+            .then(destinations => {
+                const foundDestination = destinations.find(d => d.name.toLowerCase() === destination.toLowerCase());
+    
+                if (foundDestination) {
+                    // ✅ Destination exists, proceed with booking
+                    document.getElementById("price").value = `$${foundDestination.price}`; // Show price
+    
+                    const bookingData = {
+                        name: name,
+                        email: email,
+                        destination: destination,
+                        date: date,
+                        people: people,
+                        price: foundDestination.price // Include price in booking
+                    };
+    
+                    // Save the booking to db.json
+                    return fetch("http://localhost:3000/bookings", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(bookingData)
+                    });
+                } else {
+                    // Destination NOT found, alert user and prevent booking
+                    alert("We currently don't offer tours to this destination. We will contact you if we add it.");
+                    return
+                }
             })
             .then(response => response.json())
             .then(() => {
-                alert("Booking successful! Your details have been recorded.");
-                bookingForm.reset();
+                alert("Booking successful!");
+                document.getElementById("tourForm").reset(); // Clear form
             })
-            .catch(error => console.error("Booking error:", error));
-        });
-    }
+            .catch(error => console.error("Error booking the tour:", error));
+    });
+    
 
     // Review Form Submission
     const reviewForm = document.getElementById("review-form");
@@ -203,12 +225,19 @@ document.querySelectorAll(".booking").forEach(button => {
         let destinationName = this.getAttribute("data-place"); // Get destination name
         let price = this.getAttribute("data-price"); // Get price
 
-        // Set values in the booking form
-        document.getElementById("destination").value = destinationName;
-        document.getElementById("price").value = `$${price}`;
+        // Ensure price is set properly
+        if (price) {
+            document.getElementById("price").value = `$${price}`;  
+        } else {
+            document.getElementById("price").value = "Price not available"; 
+        }
 
-        // Scroll to the booking form
+        // Set destination in text input
+        document.getElementById("destination").value = destinationName;
+
+        // Scroll to booking form
         window.location.href = "#tourForm";
     });
 });
+
 
