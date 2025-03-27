@@ -2,26 +2,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle "Book" and "Review" Buttons
     document.querySelectorAll(".booking").forEach(button => {
         button.addEventListener("click", function () {
-            window.location.href = "#tourForm"; // Scrolls to booking form
+            window.location.href = "#tourForm"; // Scroll to booking form
         });
     });
 
     document.querySelectorAll(".user-review").forEach(button => {
         button.addEventListener("click", function () {
-            window.location.href = "#review-form"; // Scrolls to review form
+            window.location.href = "#reviewForm"; // Scroll to review form
         });
     });
 
     // Search bar functionality
     function searchDestination() {
         let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
-        fetch("http://localhost:3000/destinations")
+        fetch("http://localhost:3000/destinations") // Fetch from JSON Server
         .then(response => response.json())
         .then(destinations => {
             let destinationNames = destinations.map(dest => dest.name.toLowerCase());
 
             if (destinationNames.includes(searchInput)) {
-                alert(`We have tours to ${searchInput.charAt(0).toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve your spot.`);
+                alert(`We have tours to ${searchInput[0].toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve your spot.`);
             } else {
                 alert("Sorry, we don’t offer services there yet. Continue exploring!");
             }
@@ -41,6 +41,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Fetch destinations and update price when user selects a destination
+    fetch("http://localhost:3000/destinations")
+        .then(response => response.json())
+        .then(destinations => {
+            const destinationInput = document.getElementById("destination");
+            const priceInput = document.getElementById("price");
+
+            destinationInput.addEventListener("input", function () {
+                const userInput = this.value.trim().toLowerCase();
+                const foundDestination = destinations.find(dest => dest.name.toLowerCase() === userInput);
+
+                if (foundDestination) {
+                    priceInput.value = `${foundDestination.price}`; // Update price immediately
+                } else {
+                    priceInput.value = "Price not available";
+                }
+            });
+        })
+        .catch(error => console.error("Error fetching destinations:", error));
+
     // Booking Form Submission
     document.getElementById("tourForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page reload
@@ -51,56 +71,49 @@ document.addEventListener("DOMContentLoaded", function () {
         const destination = document.getElementById("destination").value;
         const date = document.getElementById("date").value;
         const people = document.getElementById("people").value;
-    
-        // Fetch available destinations and check if it exists
-        fetch("http://localhost:3000/destinations")
+        const price = document.getElementById("price").value.replace("$", ""); // Remove "$"
+
+        // Validate destination before proceeding
+        if (!price || price === "Price not available") {
+            alert("Invalid destination. Please enter a valid destination.");
+            return;
+        }
+
+        // Check if the user already exists
+        fetch("http://localhost:3000/users")
             .then(response => response.json())
-            .then(destinations => {
-                const foundDestination = destinations.find(d => d.name.toLowerCase() === destination.toLowerCase());
-    
-                if (!foundDestination) {
-                    alert("We currently don't offer tours to this destination. We will contact you if we add it.");
-                    return;
-                }
-    
-                document.getElementById("price").value = `${foundDestination.price}`; // Show price
-    
-                // Checking if user already exists
-                return fetch("http://localhost:3000/users")
-                    .then(response => response.json())
-                    .then(users => {
-                        let existingUser = users.find(user => user.email === email);
-                        
-                        if (existingUser) {
-                            return existingUser.id; 
-                        } else {
-                            return fetch("http://localhost:3000/users", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ name, email })
-                            })
-                            .then(response => response.json())
-                            .then(newUser => newUser.id);
-                        }
+            .then(users => {
+                let existingUser = users.find(user => user.email === email);
+
+                if (existingUser) {
+                    return existingUser.id; // Use existing user ID
+                } else {
+                    // Create new user
+                    return fetch("http://localhost:3000/users", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name, email })
                     })
-                    .then(userId => {
-                        // Saves the booking with the user ID
-                        const bookingData = {
-                            userId, 
-                            destination,
-                            date,
-                            people,
-                            price: foundDestination.price
-                        };
-    
-                        return fetch("http://localhost:3000/bookings", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(bookingData)
-                        });
-                    });
+                    .then(response => response.json())
+                    .then(newUser => newUser.id); // Return new user's ID
+                }
             })
-            .then(response => response.json())
+            .then(userId => {
+                // Save the booking
+                return fetch("http://localhost:3000/bookings", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId, destination, date, people, price })
+                }).then(response => response.json()).then(() => userId);
+            })
+            .then(userId => {
+                // Update user's booking details
+                fetch(`http://localhost:3000/users/${userId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ lastBookedDestination: destination })
+                });
+            })
             .then(() => {
                 alert("Booking successful!");
                 document.getElementById("tourForm").reset(); // Clear form
@@ -109,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Review Form Submission
-    document.getElementById("reviewForm").addEventListener("submit", function (event) {
+    document.getElementById("review-form").addEventListener("submit", function (event) {
         event.preventDefault();
 
         // Get form values
@@ -140,15 +153,4 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error submitting review:", error));
     });
-
-    // Load Reviews Function (Add this to prevent errors)
-    function loadReviews() {
-        fetch("http://localhost:3000/reviews")
-            .then(response => response.json())
-            .then(reviews => {
-                console.log("Reviews loaded:", reviews);
-            })
-            .catch(error => console.error("Error loading reviews:", error));
-    }
 });
-
