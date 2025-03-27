@@ -122,35 +122,58 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Review Form Submission
-    document.getElementById("review-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        // Get form values
-        const name = document.getElementById("reviewerName").value;
-        const destination = document.getElementById("destinationReview").value;
-        const text = document.getElementById("reviewText").value;
-        const rating = document.getElementById("reviewRating").value;
-
-        // Build review object
-        const reviewData = {
-            name,
-            destination,
-            text,
-            rating: parseInt(rating)
-        };
-
-        // Send review to the database
-        fetch("http://localhost:3000/reviews", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(reviewData)
-        })
-        .then(response => response.json())
-        .then(() => {
-            alert("Review submitted successfully!");
-            document.getElementById("reviewForm").reset();
-            loadReviews(); // Reload reviews
-        })
-        .catch(error => console.error("Error submitting review:", error));
+    document.addEventListener("DOMContentLoaded", function () {
+        const reviewForm = document.getElementById("review-form");
+    
+        if (reviewForm) {
+            reviewForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+    
+                const nameField = document.getElementById("reviewerName");
+                const destinationField = document.getElementById("destinationReview");
+                const textField = document.getElementById("reviewText");
+                const ratingField = document.getElementById("reviewRating");
+    
+                // Check if all fields exist
+                if (!nameField || !destinationField || !textField || !ratingField) {
+                    console.error("One or more review form fields are missing.");
+                    return;
+                }
+    
+                // Get input values
+                const name = nameField.value.trim();
+                const destination = destinationField.value.trim();
+                const text = textField.value.trim();
+                const rating = parseInt(ratingField.value);
+    
+                // Ensure all required values are provided
+                if (!name || !destination || !text || isNaN(rating)) {
+                    alert("Please fill in all fields correctly.");
+                    return;
+                }
+    
+                // ✅ Define reviewData before using it
+                const reviewData = {
+                    name,
+                    destination,
+                    text,
+                    rating
+                };
+    
+                // Send review to the database
+                fetch("http://localhost:3000/reviews", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reviewData)
+                })
+                .then(response => response.json())
+                .then(() => {
+                    alert("Review submitted successfully!");
+                    reviewForm.reset(); // Clear form after submission
+                    loadReviews(); // Reload reviews if function exists
+                })
+                .catch(error => console.error("Error submitting review:", error));
+            });
+        }
     });
-});
+}); 

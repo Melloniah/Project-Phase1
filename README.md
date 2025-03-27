@@ -20,3 +20,5 @@ As the admin i can also see the number of travellers who have booked , travel da
 The user can know the price of the destination they have put before the confirm booking.
 
 The user can whatsapp me from the footer contact section
+This app most of the things, eg contact form, searching places in real time needed a solid backend. I look forward to adding some backend to it. 
+
