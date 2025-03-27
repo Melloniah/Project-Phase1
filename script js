@@ -32,17 +32,16 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Could not check destinations. Try again later.");
         });
     }
+    //Allowing event listener to search button
+    document.querySelector(".search-btn").addEventListener("click", searchDestination);
 
-        let availableDestinations = Array.from(destinations).map(button =>
-            button.getAttribute("data-place").toLowerCase()
-        );
-
-        if (availableDestinations.includes(searchInput)) {
-            alert(`We have tours to ${searchInput.charAt(0).toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve.`);
-        } else {
-            alert("Sorry, we don’t offer services there yet. Keep exploring!");
+    // Allow pressing "Enter" to trigger search
+    document.querySelector(".search-bar").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchDestination();
         }
-    }
+    });
 
     document.querySelector(".search-btn").addEventListener("click", searchDestination);
     document.querySelector(".search-bar").addEventListener("keypress", function (event) {
