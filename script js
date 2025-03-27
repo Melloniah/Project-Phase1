@@ -156,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error updating review:", error));
     }
-
     // Delete Review
     function deleteReview(event) {
         const reviewId = event.target.getAttribute("data-id");
@@ -173,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error deleting review:", error));
     }
 });
+
 
 document.querySelectorAll(".booking").forEach(button => {
     button.addEventListener("click", function () {
