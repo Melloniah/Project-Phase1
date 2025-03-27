@@ -108,74 +108,35 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error booking the tour:", error));
     });
     
-    // Load Reviews
-    function loadReviews() {
-        fetch("http://localhost:3000/reviews")
-            .then(response => response.json())
-            .then(reviews => {
-                const reviewContainer = document.getElementById("reviews-container");
-                if (!reviewContainer) return;
+ // Review Form Submission
+document.getElementById("reviewForm").addEventListener("submit", function (event) {
+    event.preventDefault();
 
-                reviewContainer.innerHTML = ""; // Clear old reviews
+    // Get form values
+    const name = document.getElementById("reviewerName").value;
+    const destination = document.getElementById("destinationReview").value;
+    const text = document.getElementById("reviewText").value;
+    const rating = document.getElementById("reviewRating").value;
 
-                reviews.forEach(review => {
-                    const reviewDiv = document.createElement("div");
-                    reviewDiv.classList.add("review-item");
-                    reviewDiv.innerHTML = `
-                        <p><strong>${review.name}</strong> rated: ${"⭐".repeat(review.rating)}</p>
-                        <p>${review.text}</p>
-                        <button class="edit-review" data-id="${review.id}">Edit</button>
-                        <button class="delete-review" data-id="${review.id}">Delete</button>
-                    `;
-                    reviewContainer.appendChild(reviewDiv);
-                });
+    // Build review object
+    const reviewData = {
+        name,
+        destination,
+        text,
+        rating: parseInt(rating)
+    };
 
-                // Attach event listeners for edit and delete
-                document.querySelectorAll(".edit-review").forEach(button => {
-                    button.addEventListener("click", editReview);
-                });
-
-                document.querySelectorAll(".delete-review").forEach(button => {
-                    button.addEventListener("click", deleteReview);
-                });
-            })
-            .catch(error => console.error("Error loading reviews:", error));
-    }
-
-    loadReviews(); // Load reviews on page load
-
-    // Edit Review
-    function editReview(event) {
-        const reviewId = event.target.getAttribute("data-id");
-        const newText = prompt("Edit your review:");
-
-        if (!newText) return;
-
-        fetch(`http://localhost:3000/reviews/${reviewId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: newText })
-        })
-        .then(() => {
-            alert("Review updated!");
-            loadReviews();
-        })
-        .catch(error => console.error("Error updating review:", error));
-    }
-
-    // Delete Review
-    function deleteReview(event) {
-        const reviewId = event.target.getAttribute("data-id");
-
-        if (!confirm("Are you sure you want to delete this review?")) return;
-
-        fetch(`http://localhost:3000/reviews/${reviewId}`, {
-            method: "DELETE"
-        })
-        .then(() => {
-            alert("Review deleted!");
-            loadReviews();
-        })
-        .catch(error => console.error("Error deleting review:", error));
-    }
+    // Send review to the database
+    fetch("http://localhost:3000/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reviewData)
+    })
+    .then(response => response.json())
+    .then(() => {
+        alert("Review submitted successfully!");
+        document.getElementById("reviewForm").reset();
+        loadReviews(); // Reload reviews
+    })
+    .catch(error => console.error("Error submitting review:", error));
 });
