@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mellon Project JS</title>
+    <link rel="stylesheet" href="script .css">
+</head>
+<body>
+    <!-- Header  full width-->
+    <header>
+        <nav class="navbar"> 
+        <div class="logo container"> 
+            <img src="images/destination.png" alt="Tours logo">
+            <h1> Globetrek Tours and Tour Guides</h1>
+           </div>
+           <h2> Explore Your World</h2>
+
+           
+           <!--  nav links-->
+    <ul class="nav-links">
+        <li> <a href="#"> Home</a></li>
+        <li><a href="#contact"> Contact </a></li>
+        <li> <a href="#"> Destinations</a>
+        <ul class="dropdown"> 
+            <li><a href="#Coastal-Retreat">Visit Beaches</a></li>
+                    <li><a href="#mountain-climbing">Visit Mountains</a></li>
+                    <li><a href="#safari-adventure">The Wild</a></li>
+                    <li><a href="#safari-adventure">Camping</a></li>
+            </ul>
+        </li>
+        
+        <li> <a href="#"> Services</a>
+        <ul class="dropdown">
+            <li> <a href="#tour-packages"> Solo travel</a></li>
+            <li> <a href="#tour-packages"> Group travel </a></li>
+            <li> <a href="#tour-packages"> Couples travel</a></li>
+        </ul>
+        </li>
+    </ul>
+        
+    <div class="search-container"> 
+        <input type="text" placeholder="Search tours.." class="search-bar">
+        <button type="submit" class="search-btn"> Search</button>
+     </div>
+        </nav>
+    </header>
+    
+    <main class="container"> 
+        <!-- wraps everything -->
+
+
+<!-- hero section full width -->
+            <section id="hero">
+                <img src="images/herosectionimage.jpg" alt="Picture of a Kenyan Tour guide">
+               
+               <div class="hero-content">   <h2> Your Next Tour Awaits</h2> 
+                <!-- the h2 should be on top of the image -->
+                </div>
+              </section>
+              
+<!-- places to visit full width -->
+<section class="places-to-visit-container">   
+    <h3> Featured Destinations</h3>
+    <div class="all-places"> 
+
+        <div class="destination">
+            <img src="images/Mt-Kenyaclimbing.webp" alt="Mountain tours">
+            <p> 7 Days hike, Mount Kenya</p>
+            <div class="buttons"> 
+                <button class="booking" data-place="Mount Kenya" data-duration="7 days">Book</button>
+                <button class="user-review" data-place="Mount Kenya">Review Us</button>
+            </div>
+        </div>
+
+        <div class="destination"> 
+            <img src="images/watamubeaches.jpg" alt="Coastal Beaches">
+            <p> 3 Days, 2 Nights in the Kenyan North Coast</p>
+            <div class="buttons"> 
+                <button class="booking" data-place="Kenyan North Coast" data-duration="3 days">Book</button>
+                <button class="user-review" data-place="Kenyan North Coast">Review Us</button>
+            </div>
+        </div>
+
+        <div class="destination">  
+            <img src="images/adventureinforest.jpg" alt="Explore the forest with us">
+            <p>Want some alone time with the wild? We offer that too, with a tour guide</p>
+            <div class="buttons"> 
+                <button class="booking" data-place="Forest Adventure" data-duration="Flexible">Book</button>
+                <button class="user-review" data-place="Forest Adventure">Review Us</button>
+            </div>
+        </div>
+
+        <div class="destination"> 
+            <img src="images/campingtours.jpg" alt="Camping tours">
+            <p> Let's go camping in the wild for 2 days</p>
+            <div class="buttons"> 
+                <button class="booking" data-place="Camping Tour" data-duration="2 days">Book</button>
+                <button class="user-review" data-place="Camping Tour">Review Us</button>
+            </div>
+        </div>
+    
+        
+    </div>
+</section>
+
+
+
+
+<!-- Tour Packages, Interactive Map & Contact Form (Side by Side) -->
+<section id="tour-booking-container">
+
+    <!-- Tour Packages -->
+    <section id="tour-packages" class="tour-packages">
+        <h3>Tour Packages</h3>
+
+        <div class="package">
+            <h4 id="safari-adventure">Safari Adventure</h4>
+            <p>Explore Kenya’s wildlife with an expert guide. Includes transport, meals, and accommodation. The service also includes camping if needed.</p>
+            
+            <label>
+                <input type="checkbox" class="tour-guide-option"> Include Tour Guide?
+            </label>
+            
+            <button onclick="bookTour('Safari Adventure')">Book Now</button>
+        </div>
+    
+        <div class="package">
+            <h4 id="coastal-retreat">Coastal Sherehe</h4>
+            <p>Relax at the beautiful Kenyan coast with a 3-day beach tour. Includes hotel stay and activities.</p>
+            
+            <label>
+                <input type="checkbox" class="tour-guide-option"> Include Tour Guide?
+            </label>
+            
+            <button onclick="bookTour('Coastal Retreat')">Book Now</button>
+        </div>
+    
+        <div class="package">
+            <h4 id="mountain-climbing">Mountain climbing</h4>
+            <p>Challenge yourself by climbing Mount Kenya with professional guides.</p>
+            
+            <label>
+                <input type="checkbox" class="tour-guide-option"> Include Tour Guide?
+            </label>
+            
+            <button onclick="bookTour('Mountain Hiking')">Book Now</button>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="booking-form">
+        <h3>Book With us a Tour and/or Tour Guide</h3>
+        <form id="tourForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="destination">Preferred Destination:</label>
+            <select id="destination" name="destination">
+                <option value="Mount Kenya">Mount Kenya</option>
+                <option value="Watamu Beaches">Watamu Beaches</option>
+                <option value="Forest Adventure">Forest Adventure</option>
+                <option value="Camping in the Wild">Camping in the Wild</option>
+            </select>
+
+            <label for="date">Select Travel Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="people">Number of People:</label>
+            <input type="number" id="people" name="people" min="1" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+</section>
+    <!-- Review and Contact form-->
+    <section class="reviews-contact-container">
+      
+ <!-- Contact Form -->
+        <div class="contact-section">
+            <h3>Talk to Us</h3>
+            <form id="contact-form">
+                <input type="text" id="contact-name" placeholder="Your Name" required>
+                <input type="email" id="contact-email" placeholder="Your Email" required>
+                <input type="tel" id="contact-phone" placeholder="Your Phone (Optional)">
+                <textarea id="contact-message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="review-section">
+            <h3>User Reviews</h3>
+            
+            <!-- Reviews List -->
+            <div id="reviews-container"></div>
+        
+            <!-- Review Form -->
+            <form id="review-form">
+                <input type="text" id="reviewer-name" placeholder="Your Name" required>
+                <select id="review-rating" required>
+                    <option value="">Rate Us</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                </select>
+                <textarea id="review-text" placeholder="Write a review..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </section>
+    
+
+</main>
+
+<!-- footer section -->
+<footer id="contact">
+    <div class="footer-container">
+        <p><strong>Phone:</strong> <a href="tel:+254700123456">+254 700 123 456</a></p>
+        <p><strong>WhatsApp:</strong> 
+            <a href="https://wa.me/254700123456" target="_blank">Chat with us</a>
+        </p>
+        <p><strong>Email:</strong> 
+            <a href="mailto:info@globetrek.com">info@globetrek.com</a>
+        </p>
+    </div>
+    <p class="copyright">&copy; 2025 Globetrek Tours and Tour Guides. All Rights Reserved.</p>
+</footer>
+<script src="script js"></script>
+</body>
+</html>

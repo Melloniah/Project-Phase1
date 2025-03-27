@@ -1,0 +1,81 @@
+{
+  "destinations": [
+    {
+      "id": "1",
+      "name": "Kakamega Forest",
+      "price": 500,
+      "duration": "2 Days",
+      "location": "Kakamega, Kenya",
+      "description": "Come explore indigenous trees with a tour guide, and get a chance at camping."
+    },
+    {
+      "id": "2",
+      "name": "Watamu Beach",
+      "price": 300,
+      "duration": "5 Days",
+      "location": "Mombasa, Kenya",
+      "description": "Relax on the white sandy beaches of the Indian Ocean, in the North Coast."
+    },
+    {
+      "id": "3",
+      "name": "Mt. Kenya Trek",
+      "price": 700,
+      "duration": "7 Days",
+      "location": "Mount Kenya, Nanyuki",
+      "description": "A challenging but rewarding hike up Africa’s second-highest peak."
+    },
+    {
+      "id": "4",
+      "name": "Amboseli National Park",
+      "price": "Ksh 67000",
+      "duration": "4 Days",
+      "location": "Taita, Kenya",
+      "description": "Enjoy views of Mt. Kilimanjaro and elephant herds."
+    },
+    {
+      "id": "5",
+      "name": "Maasai Mara",
+      "price": "Ksh 45000",
+      "duration": "3 Days",
+      "location": "Narok, Kenya",
+      "description": "Come enjoy the wildebeest migration, with a chance of having breakfast in the wild."
+    }
+  ],
+  "bookings": [
+    {
+      "id": "59be",
+      "name": "Melloniah",
+      "email": "mellobadah123@gmail.com",
+      "destination": "Watamu Beaches",
+      "date": "2025-04-04",
+      "people": "3"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "d0b5",
+      "name": "Dennis",
+      "rating": "5",
+      "text": "Awesome tours"
+    },
+    {
+      "id": 1742994186259,
+      "name": "Dennis",
+      "rating": "4",
+      "text": "nice"
+    }
+  ],
+
+
+  "users": [] ,
+
+
+  
+  "admins": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin123"
+    }
+  ]
+}
