@@ -196,18 +196,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
+    
        
         const contactForm = document.getElementById("contact-form");
     
        
         contactForm.addEventListener("submit", function (event) {
             event.preventDefault(); 
-    
-            Project_Phase1     alert("Your message is received!");
+            alert("Your message is received!");
     
             contactForm.reset();
         });
     });
     
-}); 
+ 
