@@ -173,3 +173,14 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error deleting review:", error));
     }
 });
+document.querySelectorAll(".booking").forEach(button => {
+    button.addEventListener("click", function () {
+        let destination = this.getAttribute("data-place");
+        let price = this.getAttribute("data-price");
+
+        document.getElementById("destination").value = destination;
+        document.getElementById("price").value = `$${price}`;
+        
+        window.location.href = "#tourForm"; // Scroll to form
+    });
+});
