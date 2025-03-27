@@ -13,33 +13,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Search bar functionality
-    function searchDestination() {
-        let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
-        fetch("http://localhost:3000/destinations") // Fetch from JSON Server
-        .then(response => response.json())
-        .then(destinations => {
-            let destinationNames = destinations.map(dest => dest.name.toLowerCase());
+    // Search bar functionality
+function searchDestination() {
+    let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
 
-            if (destinationNames.includes(searchInput)) {
-                alert(`We have tours to ${searchInput[0].toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve your spot.`);
-            } else {
-                alert("Sorry, we don’t offer services there yet. Continue exploring!");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching destinations:", error);
-            alert("Could not check destinations. Try again later.");
-        });
-    }
+    fetch("http://localhost:3000/destinations") // Fetch from JSON Server
+    .then(response => response.json())
+    .then(destinations => {
+        let destinationNames = destinations.map(dest => dest.name.toLowerCase());
 
-    // Attach event listeners to search
-    document.querySelector(".search-btn").addEventListener("click", searchDestination);
-    document.querySelector(".search-bar").addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            searchDestination();
+        if (destinationNames.includes(searchInput)) {
+            alert(`We have tours to ${searchInput.charAt(0).toUpperCase() + searchInput.slice(1)}! Click 'Book' to reserve your spot.`);
+        } else {
+            alert("Sorry, we don’t offer services there yet. Continue exploring!");
         }
+    })
+    .catch(error => {
+        console.error("Error fetching destinations:", error);
+        alert("Could not check destinations. Try again later.");
     });
+}
+
+// Attach event listeners to search button and Enter key
+document.querySelector(".search-btn").addEventListener("click", searchDestination);
+document.querySelector(".search-bar").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        searchDestination();
+    }
+});
+
 
     // Fetch destinations and update price when user selects a destination
     fetch("http://localhost:3000/destinations")
@@ -185,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contactForm.addEventListener("submit", function (event) {
             event.preventDefault(); 
     
-            alert("Your message is received!");
+            Project_Phase1     alert("Your message is received!");
     
             contactForm.reset();
         });
