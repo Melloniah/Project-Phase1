@@ -18,7 +18,7 @@
     },
     {
       "id": "3",
-      "name": "Mt. Kenya Trek",
+      "name": "Mt. Kenya",
       "price": "Ksh 27000",
       "duration": "7 Days",
       "location": "Mount Kenya, Nanyuki",
@@ -39,7 +39,49 @@
       "duration": "3 Days",
       "location": "Narok, Kenya",
       "description": "Come enjoy the wildebeest migration, with a chance of having breakfast in the wild."
-    }
+    },
+
+    {
+        "id": "6",
+        "name": "Diani Beach",
+        "price": "Ksh 50000",
+        "duration": "5 Days",
+        "location": "Kwale, Kenya",
+        "description": "Enjoy the crystal-clear waters, luxury resorts, and thrilling water sports."
+      },
+      {
+        "id": "7",
+        "name": "Lake Naivasha",
+        "price": "Ksh 22000",
+        "duration": "2 Days",
+        "location": "Naivasha, Kenya",
+        "description": "Boat rides, bird watching, and breathtaking views of the Great Rift Valley."
+      },
+      {
+        "id": "8",
+        "name": "Samburu National Reserve",
+        "price": "Ksh 52000",
+        "duration": "4 Days",
+        "location": "Samburu, Kenya",
+        "description": "Wildlife safaris with a chance to see the ‘Samburu Special Five’."
+      },
+      {
+        "id": "9",
+        "name": "Hell's Gate National Park",
+        "price": "Ksh 18000",
+        "duration": "1 Day",
+        "location": "Naivasha, Kenya",
+        "description": "Perfect for hiking, biking, and rock climbing, with breathtaking landscapes."
+      },
+      {
+        "id": "10",
+        "name": "Tsavo National Park",
+        "price": "Ksh 60000",
+        "duration": "5 Days",
+        "location": "Taita-Taveta, Kenya",
+        "description": "Explore the vast landscapes, see lions, and visit the famous Mzima Springs."
+      }
+
   ],
   "bookings": [
     {
@@ -76,7 +118,7 @@
     }
   ],
   "users": [],
-  
+
   "admins": [
     {
       "id": "1",
