@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const foundDestination = destinations.find(d => d.name.toLowerCase() === destination.toLowerCase());
 
                 if (foundDestination) {
-                    document.getElementById("price").value = `$${foundDestination.price}`; // Show price
+                    document.getElementById("price").value = `${foundDestination.price}`; // Show price
 
                     const bookingData = {
                         name,

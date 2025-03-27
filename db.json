@@ -73,6 +73,15 @@
       "destination": "Karura",
       "date": "2026-08-02",
       "people": "13"
+    },
+    {
+      "id": "2f6d",
+      "name": "Makeda ",
+      "email": "mello.obada@student.moringaschool.com",
+      "destination": "Watamu",
+      "date": "2026-04-04",
+      "people": "2",
+      "price": "Ksh 43000"
     }
   ],
   "reviews": [
