@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Search bar functionality
     function searchDestination() {
         let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
-        fetch("http://localhost:3000/destinations") // Fetch from JSON Server
+        fetch("http://localhost:3000/destinations")
         .then(response => response.json())
         .then(destinations => {
             let destinationNames = destinations.map(dest => dest.name.toLowerCase());
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Booking Form Submission
     document.getElementById("tourForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent page reload
     
@@ -73,14 +74,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (existingUser) {
                             return existingUser.id; 
                         } else {
-                           
                             return fetch("http://localhost:3000/users", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ name, email })
                             })
                             .then(response => response.json())
-                            .then(newUser => newUser.id); // Return new user's ID
+                            .then(newUser => newUser.id);
                         }
                     })
                     .then(userId => {
@@ -107,36 +107,48 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => console.error("Error booking the tour:", error));
     });
-    
- // Review Form Submission
-document.getElementById("reviewForm").addEventListener("submit", function (event) {
-    event.preventDefault();
 
-    // Get form values
-    const name = document.getElementById("reviewerName").value;
-    const destination = document.getElementById("destinationReview").value;
-    const text = document.getElementById("reviewText").value;
-    const rating = document.getElementById("reviewRating").value;
+    // Review Form Submission
+    document.getElementById("reviewForm").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    // Build review object
-    const reviewData = {
-        name,
-        destination,
-        text,
-        rating: parseInt(rating)
-    };
+        // Get form values
+        const name = document.getElementById("reviewerName").value;
+        const destination = document.getElementById("destinationReview").value;
+        const text = document.getElementById("reviewText").value;
+        const rating = document.getElementById("reviewRating").value;
 
-    // Send review to the database
-    fetch("http://localhost:3000/reviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reviewData)
-    })
-    .then(response => response.json())
-    .then(() => {
-        alert("Review submitted successfully!");
-        document.getElementById("reviewForm").reset();
-        loadReviews(); // Reload reviews
-    })
-    .catch(error => console.error("Error submitting review:", error));
+        // Build review object
+        const reviewData = {
+            name,
+            destination,
+            text,
+            rating: parseInt(rating)
+        };
+
+        // Send review to the database
+        fetch("http://localhost:3000/reviews", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reviewData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            alert("Review submitted successfully!");
+            document.getElementById("reviewForm").reset();
+            loadReviews(); // Reload reviews
+        })
+        .catch(error => console.error("Error submitting review:", error));
+    });
+
+    // Load Reviews Function (Add this to prevent errors)
+    function loadReviews() {
+        fetch("http://localhost:3000/reviews")
+            .then(response => response.json())
+            .then(reviews => {
+                console.log("Reviews loaded:", reviews);
+            })
+            .catch(error => console.error("Error loading reviews:", error));
+    }
 });
+
