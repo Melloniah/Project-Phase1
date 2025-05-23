@@ -196,19 +196,23 @@
             <div id="reviews-container"></div>
         
             <!-- Review Form -->
-            <form id="review-form">
-                <input type="text" id="reviewer-name" placeholder="Your Name" required>
-                <select id="review-rating" required>
-                    <option value="">Rate Us</option>
-                    <option value="5">⭐⭐⭐⭐⭐</option>
-                    <option value="4">⭐⭐⭐⭐</option>
-                    <option value="3">⭐⭐⭐</option>
-                    <option value="2">⭐⭐</option>
-                    <option value="1">⭐</option>
-                </select>
-                <textarea id="review-text" placeholder="Write a review..." required></textarea>
-                <button type="submit">Submit</button>
-            </form>
+         <section id="reviewForm">
+  <form id="review-form">
+    <!-- Review fields: name, destination, text, rating -->
+    <input type="text" id="reviewerName" placeholder="Your Name" required />
+    <input type="text" id="destinationReview" placeholder="Destination" required />
+    <textarea id="reviewText" placeholder="Your Review" required></textarea>
+    <input type="number" id="reviewRating" placeholder="Rating (1-5)" min="1" max="5" required />
+    <button type="submit">Submit Review</button>
+  </form>
+
+  <!-- ⭐ Add this to display reviews -->
+  <div id="review-display" class="mt-6">
+    <h3>What Others Are Saying:</h3>
+    <ul id="review-list"></ul>
+  </div>
+</section>
+
         </div>
     </section>
     

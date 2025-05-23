@@ -1,212 +1,201 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Handle "Book" and "Review" Buttons
+    // Handle Scroll Buttons
     document.querySelectorAll(".booking").forEach(button => {
-        button.addEventListener("click", function () {
-            window.location.href = "#tourForm"; // Scroll to booking form
+        button.addEventListener("click", () => {
+            window.location.href = "#tourForm";
         });
     });
 
     document.querySelectorAll(".user-review").forEach(button => {
-        button.addEventListener("click", function () {
-            window.location.href = "#reviewForm"; // Scroll to review form
+        button.addEventListener("click", () => {
+            window.location.href = "#reviewForm";
+            loadReviews(); // Load and display reviews when user clicks "Review Us"
         });
     });
 
-    // Search bar functionality
-    
+    // Search Functionality
+    const searchButton = document.querySelector(".search-btn");
+    const searchBar = document.querySelector(".search-bar");
+
     function searchDestination() {
-        let searchInput = document.querySelector(".search-bar").value.trim().toLowerCase();
-    
+        const searchInput = searchBar.value.trim().toLowerCase();
+
         if (!searchInput) {
             alert("Please enter a destination to search.");
             return;
         }
-    
+
         fetch("http://localhost:3000/destinations")
-            .then(response => response.json())
+            .then(res => res.json())
             .then(destinations => {
-                let foundDestination = destinations.find(dest => dest.name.toLowerCase().includes(searchInput));
-    
-                if (foundDestination) {
-                    alert(`We have tours to ${foundDestination.name}! Click 'Book' to reserve your spot.`);
+                const found = destinations.find(dest => dest.name.toLowerCase().includes(searchInput));
+                if (found) {
+                    alert(`We have tours to ${found.name}! Click 'Book' to reserve your spot.`);
                 } else {
                     alert("Sorry, we don’t offer services there yet. Please continue searching!");
                 }
             })
-            .catch(error => {
-                console.error("Error fetching destinations:", error);
+            .catch(err => {
+                console.error("Error fetching destinations:", err);
                 alert("Could not check destinations. Try again later.");
             });
     }
-    
-    // Attach event listeners when the page loads
-   
-        let searchButton = document.querySelector(".search-btn");
-        let searchBar = document.querySelector(".search-bar");
-    
-        if (searchButton) {
-            searchButton.addEventListener("click", searchDestination);
-        }
-    
-        if (searchBar) {
-            searchBar.addEventListener("keypress", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    searchDestination();
-                }
-            });
-        }
-   
-    
 
+    if (searchButton) {
+        searchButton.addEventListener("click", searchDestination);
+    }
 
-    // Fetch destinations and update price when user selects a destination
+    if (searchBar) {
+        searchBar.addEventListener("keypress", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                searchDestination();
+            }
+        });
+    }
+
+    // Auto Update Price on Destination Input
     fetch("http://localhost:3000/destinations")
-        .then(response => response.json())
+        .then(res => res.json())
         .then(destinations => {
             const destinationInput = document.getElementById("destination");
             const priceInput = document.getElementById("price");
 
-            destinationInput.addEventListener("input", function () {
-                const userInput = this.value.trim().toLowerCase();
-                const foundDestination = destinations.find(dest => dest.name.toLowerCase() === userInput);
+            if (destinationInput && priceInput) {
+                destinationInput.addEventListener("input", () => {
+                    const input = destinationInput.value.trim().toLowerCase();
+                    const match = destinations.find(dest => dest.name.toLowerCase() === input);
 
-                if (foundDestination) {
-                    priceInput.value = `${foundDestination.price}`; // Update price immediately
-                } else {
-                    priceInput.value = "Price not available";
-                }
-            });
+                    priceInput.value = match ? match.price : "Price not available";
+                });
+            }
         })
-        .catch(error => console.error("Error fetching destinations:", error));
+        .catch(err => console.error("Error fetching destinations:", err));
 
-    // Booking Form Submission
-    document.getElementById("tourForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent page reload
-    
-        // Get form values
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const destination = document.getElementById("destination").value;
-        const date = document.getElementById("date").value;
-        const people = document.getElementById("people").value;
-        const price = document.getElementById("price").value.replace("$", ""); // Remove "$"
+    // Tour Booking Submission
+    const tourForm = document.getElementById("tourForm");
 
-        // Validate destination before proceeding
-        if (!price || price === "Price not available") {
-            alert("Invalid destination. Please enter a valid destination.");
-            return;
-        }
+    if (tourForm) {
+        tourForm.addEventListener("submit", function (event) {
+            event.preventDefault();
 
-        // Check if the user already exists
-        fetch("http://localhost:3000/users")
-            .then(response => response.json())
-            .then(users => {
-                let existingUser = users.find(user => user.email === email);
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const destination = document.getElementById("destination").value.trim();
+            const date = document.getElementById("date").value;
+            const people = document.getElementById("people").value;
+            const price = document.getElementById("price").value.replace("$", "").trim();
 
-                if (existingUser) {
-                    return existingUser.id; // Use existing user ID
-                } else {
-                    // Create new user
+            if (!price || price === "Price not available") {
+                alert("Invalid destination. Please enter a valid destination.");
+                return;
+            }
+
+            fetch("http://localhost:3000/users")
+                .then(res => res.json())
+                .then(users => {
+                    const existingUser = users.find(user => user.email === email);
+                    if (existingUser) return existingUser.id;
+
                     return fetch("http://localhost:3000/users", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ name, email })
                     })
-                    .then(response => response.json())
-                    .then(newUser => newUser.id); // Return new user's ID
-                }
-            })
-            .then(userId => {
-                // Save the booking
-                return fetch("http://localhost:3000/bookings", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ userId, destination, date, people, price })
-                }).then(response => response.json()).then(() => userId);
-            })
-            .then(userId => {
-                // Update user's booking details
-                fetch(`http://localhost:3000/users/${userId}`, {
-                    method: "PATCH",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ lastBookedDestination: destination })
-                });
-            })
-            .then(() => {
-                alert("Booking successful!");
-                document.getElementById("tourForm").reset(); // Clear form
-            })
-            .catch(error => console.error("Error booking the tour:", error));
-    });
-
-    // Review Form Submission
-    document.addEventListener("DOMContentLoaded", function () {
-        const reviewForm = document.getElementById("review-form");
-    
-        if (reviewForm) {
-            reviewForm.addEventListener("submit", function (event) {
-                event.preventDefault();
-    
-                const nameField = document.getElementById("reviewerName");
-                const destinationField = document.getElementById("destinationReview");
-                const textField = document.getElementById("reviewText");
-                const ratingField = document.getElementById("reviewRating");
-    
-                // Check if all fields exist
-                if (!nameField || !destinationField || !textField || !ratingField) {
-                    console.error("One or more review form fields are missing.");
-                    return;
-                }
-    
-                // Get input values
-                const name = nameField.value.trim();
-                const destination = destinationField.value.trim();
-                const text = textField.value.trim();
-                const rating = parseInt(ratingField.value);
-    
-                // Ensure all required values are provided
-                if (!name || !destination || !text || isNaN(rating)) {
-                    alert("Please fill in all fields correctly.");
-                    return;
-                }
-    
-                // ✅ Define reviewData before using it
-                const reviewData = {
-                    name,
-                    destination,
-                    text,
-                    rating
-                };
-    
-                // Send review to the database
-                fetch("http://localhost:3000/reviews", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(reviewData)
+                        .then(res => res.json())
+                        .then(newUser => newUser.id);
                 })
-                .then(response => response.json())
+                .then(userId => {
+                    return fetch("http://localhost:3000/bookings", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ userId, destination, date, people, price })
+                    }).then(() => userId);
+                })
+                .then(userId => {
+                    return fetch(`http://localhost:3000/users/${userId}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ lastBookedDestination: destination })
+                    });
+                })
+                .then(() => {
+                    alert("Booking successful!");
+                    tourForm.reset();
+                })
+                .catch(err => console.error("Error booking the tour:", err));
+        });
+    }
+
+    // Review Submission
+    const reviewForm = document.getElementById("review-form");
+
+    if (reviewForm) {
+        reviewForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            console.log("Review form submitted");
+            const name = document.getElementById("reviewerName").value.trim();
+            const destination = document.getElementById("destinationReview").value.trim();
+            const text = document.getElementById("reviewText").value.trim();
+            const rating = parseInt(document.getElementById("reviewRating").value);
+
+            if (!name || !destination || !text || isNaN(rating)) {
+                alert("Please fill in all fields correctly.");
+                return;
+            }
+
+            const reviewData = { name, destination, text, rating };
+
+            fetch("http://localhost:3000/reviews", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(reviewData)
+            })
+                .then(res => res.json())
                 .then(() => {
                     alert("Review submitted successfully!");
-                    reviewForm.reset(); // Clear form after submission
-                    loadReviews(); // Reload reviews if function exists
+                    reviewForm.reset();
+                    loadReviews(); // Reload reviews after submission
                 })
-                .catch(error => console.error("Error submitting review:", error));
-            });
-        }
-    });
+                .catch(err => console.error("Error submitting review:", err));
+        });
+    }
 
-    
-       
-        const contactForm = document.getElementById("contact-form");
-    
-       
+    // Contact Form Submission
+    const contactForm = document.getElementById("contact-form");
+
+    if (contactForm) {
         contactForm.addEventListener("submit", function (event) {
-            event.preventDefault(); 
+            event.preventDefault();
             alert("Your message is received!");
-    
             contactForm.reset();
         });
-    });
-    
- 
+    }
+});
+
+// Load Reviews Function
+function loadReviews() {
+    fetch("http://localhost:3000/reviews")
+        .then(response => response.json())
+        .then(reviews => {
+            const reviewList = document.getElementById("review-list");
+            reviewList.innerHTML = ""; // Clear previous entries
+
+            if (reviews.length === 0) {
+                reviewList.innerHTML = "<li>No reviews yet. Be the first to share!</li>";
+                return;
+            }
+
+            reviews.forEach(review => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <strong>${review.name}</strong> (Destination: ${review.destination})<br/>
+                    "${review.text}"<br/>
+                    ⭐ Rating: ${review.rating}/5
+                    <hr/>
+                `;
+                reviewList.appendChild(li);
+            });
+        })
+        .catch(error => console.error("Error loading reviews:", error));
+}
