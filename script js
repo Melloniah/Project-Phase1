@@ -1,201 +1,265 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Handle Scroll Buttons
-    document.querySelectorAll(".booking").forEach(button => {
-        button.addEventListener("click", () => {
-            window.location.href = "#tourForm";
-        });
-    });
+// --- Grab all needed DOM elements once here ---
+// These constants reference elements from the DOM.
+// Declaring them once prevents redeclaration errors and improves readability.
+const reviewModal = document.getElementById("reviewModal");
+const reviewForm = document.getElementById("review-form");
+const deleteReviewBtn = document.getElementById("delete-review-btn");
+const reviewDestinationName = document.getElementById("review-destination-name");
 
-    document.querySelectorAll(".user-review").forEach(button => {
-        button.addEventListener("click", () => {
-            window.location.href = "#reviewForm";
-            loadReviews(); // Load and display reviews when user clicks "Review Us"
-        });
-    });
+const bookingForm = document.getElementById("tourForm");          // Booking form element
+const deleteBookingBtn = document.getElementById("delete-booking-btn");  // Delete booking button
 
-    // Search Functionality
-    const searchButton = document.querySelector(".search-btn");
-    const searchBar = document.querySelector(".search-bar");
+const descriptionModal = document.getElementById("descriptionModal");
+const modalDestinationTitle = document.getElementById("modal-destination-title");
+const modalDestinationDescription = document.getElementById("modal-destination-description");
 
-    function searchDestination() {
-        const searchInput = searchBar.value.trim().toLowerCase();
+const tourGuideCheckbox = document.getElementById('tourGuideCheckbox');  // Checkbox to add tour guide
+const peopleInput = document.getElementById('people');                   // Number of people input
+const priceInput = document.getElementById('price');                     // Total price input
 
-        if (!searchInput) {
-            alert("Please enter a destination to search.");
-            return;
-        }
+// Arrays to hold fetched reviews and bookings data
+let reviews = [];
+let bookings = [];
 
-        fetch("http://localhost:3000/destinations")
-            .then(res => res.json())
-            .then(destinations => {
-                const found = destinations.find(dest => dest.name.toLowerCase().includes(searchInput));
-                if (found) {
-                    alert(`We have tours to ${found.name}! Click 'Book' to reserve your spot.`);
-                } else {
-                    alert("Sorry, we don’t offer services there yet. Please continue searching!");
-                }
-            })
-            .catch(err => {
-                console.error("Error fetching destinations:", err);
-                alert("Could not check destinations. Try again later.");
-            });
+// API endpoints
+const REVIEWS_URL = "http://localhost:3000/reviews";
+const BOOKINGS_URL = "http://localhost:3000/bookings";
+
+// Variables to hold price info for calculation
+let unitPrice = 0;
+let guidePrice = 0;
+
+// --- Fetch reviews and bookings from server and update arrays ---
+function fetchReviewsAndBookings() {
+  fetch(REVIEWS_URL)
+    .then(res => res.json())
+    .then(data => reviews = data);
+
+  fetch(BOOKINGS_URL)
+    .then(res => res.json())
+    .then(data => bookings = data);
+}
+
+// Initial fetch on page load
+fetchReviewsAndBookings();
+
+// --- Show description modal with destination info and reviews ---
+// Add click listeners to all destination cards
+document.querySelectorAll(".destination").forEach(card => {
+  card.addEventListener("click", e => {
+    // Ignore clicks on booking or review buttons inside card
+    if (e.target.classList.contains("booking") || e.target.classList.contains("user-review")) return;
+
+    // Get title, description, and place identifier from the card
+    const title = card.querySelector("p").innerText;
+    const desc = card.dataset.description;
+    const place = card.querySelector("button.booking").dataset.place;
+
+    // Populate modal content
+    modalDestinationTitle.textContent = title;
+    modalDestinationDescription.innerHTML = `<p>${desc}</p>`;
+
+    // Filter reviews for this destination
+    const placeReviews = reviews.filter(r => r.destination === place);
+
+    // Add reviews to modal or show placeholder text
+    if (placeReviews.length > 0) {
+      const reviewHTML = placeReviews.map(r =>
+        `<div><strong>${r.name}</strong> (${r.rating}/5): ${r.text}</div>`
+      ).join("<hr>");
+      modalDestinationDescription.innerHTML += `<h4>What others say:</h4>${reviewHTML}`;
+    } else {
+      modalDestinationDescription.innerHTML += `<p><em>No reviews yet for this destination.</em></p>`;
     }
 
-    if (searchButton) {
-        searchButton.addEventListener("click", searchDestination);
-    }
-
-    if (searchBar) {
-        searchBar.addEventListener("keypress", event => {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                searchDestination();
-            }
-        });
-    }
-
-    // Auto Update Price on Destination Input
-    fetch("http://localhost:3000/destinations")
-        .then(res => res.json())
-        .then(destinations => {
-            const destinationInput = document.getElementById("destination");
-            const priceInput = document.getElementById("price");
-
-            if (destinationInput && priceInput) {
-                destinationInput.addEventListener("input", () => {
-                    const input = destinationInput.value.trim().toLowerCase();
-                    const match = destinations.find(dest => dest.name.toLowerCase() === input);
-
-                    priceInput.value = match ? match.price : "Price not available";
-                });
-            }
-        })
-        .catch(err => console.error("Error fetching destinations:", err));
-
-    // Tour Booking Submission
-    const tourForm = document.getElementById("tourForm");
-
-    if (tourForm) {
-        tourForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const name = document.getElementById("name").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const destination = document.getElementById("destination").value.trim();
-            const date = document.getElementById("date").value;
-            const people = document.getElementById("people").value;
-            const price = document.getElementById("price").value.replace("$", "").trim();
-
-            if (!price || price === "Price not available") {
-                alert("Invalid destination. Please enter a valid destination.");
-                return;
-            }
-
-            fetch("http://localhost:3000/users")
-                .then(res => res.json())
-                .then(users => {
-                    const existingUser = users.find(user => user.email === email);
-                    if (existingUser) return existingUser.id;
-
-                    return fetch("http://localhost:3000/users", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ name, email })
-                    })
-                        .then(res => res.json())
-                        .then(newUser => newUser.id);
-                })
-                .then(userId => {
-                    return fetch("http://localhost:3000/bookings", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ userId, destination, date, people, price })
-                    }).then(() => userId);
-                })
-                .then(userId => {
-                    return fetch(`http://localhost:3000/users/${userId}`, {
-                        method: "PATCH",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ lastBookedDestination: destination })
-                    });
-                })
-                .then(() => {
-                    alert("Booking successful!");
-                    tourForm.reset();
-                })
-                .catch(err => console.error("Error booking the tour:", err));
-        });
-    }
-
-    // Review Submission
-    const reviewForm = document.getElementById("review-form");
-
-    if (reviewForm) {
-        reviewForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            console.log("Review form submitted");
-            const name = document.getElementById("reviewerName").value.trim();
-            const destination = document.getElementById("destinationReview").value.trim();
-            const text = document.getElementById("reviewText").value.trim();
-            const rating = parseInt(document.getElementById("reviewRating").value);
-
-            if (!name || !destination || !text || isNaN(rating)) {
-                alert("Please fill in all fields correctly.");
-                return;
-            }
-
-            const reviewData = { name, destination, text, rating };
-
-            fetch("http://localhost:3000/reviews", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(reviewData)
-            })
-                .then(res => res.json())
-                .then(() => {
-                    alert("Review submitted successfully!");
-                    reviewForm.reset();
-                    loadReviews(); // Reload reviews after submission
-                })
-                .catch(err => console.error("Error submitting review:", err));
-        });
-    }
-
-    // Contact Form Submission
-    const contactForm = document.getElementById("contact-form");
-
-    if (contactForm) {
-        contactForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            alert("Your message is received!");
-            contactForm.reset();
-        });
-    }
+    // Show the description modal
+    descriptionModal.style.display = "block";
+  });
 });
 
-// Load Reviews Function
-function loadReviews() {
-    fetch("http://localhost:3000/reviews")
-        .then(response => response.json())
-        .then(reviews => {
-            const reviewList = document.getElementById("review-list");
-            reviewList.innerHTML = ""; // Clear previous entries
+// Close description modal on close button click
+document.querySelector(".close-button").onclick = () => descriptionModal.style.display = "none";
 
-            if (reviews.length === 0) {
-                reviewList.innerHTML = "<li>No reviews yet. Be the first to share!</li>";
-                return;
-            }
+// --- Review modal logic ---
 
-            reviews.forEach(review => {
-                const li = document.createElement("li");
-                li.innerHTML = `
-                    <strong>${review.name}</strong> (Destination: ${review.destination})<br/>
-                    "${review.text}"<br/>
-                    ⭐ Rating: ${review.rating}/5
-                    <hr/>
-                `;
-                reviewList.appendChild(li);
-            });
-        })
-        .catch(error => console.error("Error loading reviews:", error));
+// When a "Review Us" button is clicked
+document.querySelectorAll(".user-review").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const place = btn.dataset.place;
+    // Check if user already has a review for this destination
+    const existing = reviews.find(r => r.destination === place);
+
+    reviewDestinationName.textContent = place;
+    reviewForm.reset(); // Clear form fields
+    deleteReviewBtn.style.display = existing ? "inline-block" : "none"; // Show delete button if existing
+
+    // If existing review found, prefill form fields for editing
+    if (existing) {
+      document.getElementById("review-id").value = existing.id;
+      document.getElementById("reviewerName").value = existing.name;
+      document.getElementById("reviewText").value = existing.text;
+      document.getElementById("reviewRating").value = existing.rating;
+    } else {
+      document.getElementById("review-id").value = "";
+    }
+
+    // Show the review modal
+    reviewModal.style.display = "block";
+  });
+});
+
+// Close review modal on close button click
+document.querySelector(".close-review-modal").onclick = () => reviewModal.style.display = "none";
+
+// Handle review form submission for create or update
+reviewForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const id = document.getElementById("review-id").value;
+  const name = document.getElementById("reviewerName").value || "Anonymous";
+  const text = document.getElementById("reviewText").value;
+  const rating = document.getElementById("reviewRating").value;
+  const destination = reviewDestinationName.textContent;
+
+  const payload = { name, text, rating, destination };
+
+  if (id) {
+    // Update existing review via PATCH
+    fetch(`${REVIEWS_URL}/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert("Review updated!");
+      reviewModal.style.display = "none";
+      fetchReviewsAndBookings(); // Refresh data
+    });
+  } else {
+    // Create new review via POST
+    fetch(REVIEWS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert("Review submitted!");
+      reviewModal.style.display = "none";
+      fetchReviewsAndBookings(); // Refresh data
+    });
+  }
+});
+
+// Handle review deletion
+deleteReviewBtn.addEventListener("click", () => {
+  const id = document.getElementById("review-id").value;
+  if (id) {
+    fetch(`${REVIEWS_URL}/${id}`, {
+      method: "DELETE"
+    }).then(() => {
+      alert("Review deleted!");
+      reviewModal.style.display = "none";
+      fetchReviewsAndBookings(); // Refresh data
+    });
+  }
+});
+
+// --- Booking modal logic ---
+
+// Add click listeners to all booking buttons on destination cards
+document.querySelectorAll(".booking").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const place = btn.dataset.place;
+    unitPrice = parseFloat(btn.dataset.price);
+    guidePrice = parseFloat(btn.dataset.guidePrice) || 0; // Guide price may be missing
+
+    bookingForm.reset(); // Clear form inputs
+
+    // Prefill destination and default people count
+    document.getElementById("destination").value = place;
+    peopleInput.value = 1;
+
+    // Reset tour guide checkbox on new booking
+    tourGuideCheckbox.checked = false;
+
+    updatePrice();
+
+    // Hide delete booking button initially (assume new booking)
+    deleteBookingBtn.style.display = "none";
+
+    // If an existing booking exists for this destination, prefill the form
+    const existing = bookings.find(b => b.destination === place);
+    if (existing) {
+      document.getElementById("name").value = existing.name;
+      document.getElementById("email").value = existing.email;
+      document.getElementById("date").value = existing.date;
+      peopleInput.value = existing.people;
+
+      // Set tour guide checkbox from existing booking data
+      tourGuideCheckbox.checked = !!existing.tourGuide;
+
+      updatePrice();
+
+      deleteBookingBtn.dataset.id = existing.id; // Store booking id on delete button
+      deleteBookingBtn.style.display = "inline-block";
+    }
+
+    // Scroll booking form into view
+    document.getElementById("tour-booking-container").scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+// Calculate and update total price based on people and guide checkbox
+function updatePrice() {
+  const people = parseInt(peopleInput.value) || 1;
+  let totalPrice = unitPrice * people;
+
+  if (tourGuideCheckbox.checked) {
+    totalPrice += guidePrice; // Add guide price once
+  }
+
+  priceInput.value = totalPrice.toFixed(2);
 }
+
+// Recalculate price on user input changes
+peopleInput.addEventListener("input", updatePrice);
+tourGuideCheckbox.addEventListener("change", updatePrice);
+
+// Handle booking form submission (create or update)
+bookingForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const destination = document.getElementById("destination").value;
+  const date = document.getElementById("date").value;
+  const people = parseInt(peopleInput.value);
+  const price = parseFloat(priceInput.value);
+  const tourGuide = tourGuideCheckbox.checked;
+
+  // Payload includes tourGuide checkbox state
+  const payload = { name, email, destination, date, people, price, tourGuide };
+
+  // Check if booking exists for same user and destination
+  const existing = bookings.find(b => b.name === name && b.destination === destination);
+
+  if (existing) {
+    // Update existing booking
+    fetch(`${BOOKINGS_URL}/${existing.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert("Booking updated!");
+      fetchReviewsAndBookings(); // Refresh data
+    });
+  } else {
+    // Create new booking
+    fetch(BOOKINGS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert("Booking created!");
+      fetchReviewsAndBookings(); // Refresh data
+    });
+  }
+});

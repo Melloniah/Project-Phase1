@@ -375,7 +375,12 @@ display: flex;
         flex-direction: column;
     }
 }
-
+ #delete-booking-btn{
+display:none; 
+background-color:#e74c3c; 
+color:white; 
+margin-left:10px;
+ }
 footer {
     background-color: #f1f1f1;  
     color: #333;                
@@ -402,4 +407,105 @@ footer {
     margin-top: 15px;           
     color: #777;                
   }
+  .modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 2rem;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  /* Stack nav elements */
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .search-container {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .logo-container {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero-content {
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  .all-places {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .destination {
+    max-width: 90%;
+    width: 100%;
+  }
+
+  #tour-booking-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .booking-form {
+    width: 100%;
+  }
+
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input, select, textarea, button {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 1rem;
+  }
+}
+
   

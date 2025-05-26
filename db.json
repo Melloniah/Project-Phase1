@@ -1,148 +1,97 @@
 {
-  "destinations": [
-    {
-      "id": "1",
-      "name": "Kakamega Forest",
-      "price": "Ksh 15000",
-      "duration": "2 Days",
-      "location": "Kakamega, Kenya",
-      "description": "Come explore indigenous trees with a tour guide, and get a chance at camping."
-    },
-    {
-      "id": "2",
-      "name": "Watamu",
-      "price": "Ksh 43000",
-      "duration": "5 Days",
-      "location": "Mombasa, Kenya",
-      "description": "Relax on the white sandy beaches of the Indian Ocean, in the North Coast."
-    },
-    {
-      "id": "3",
-      "name": "Mt. Kenya",
-      "price": "Ksh 27000",
-      "duration": "7 Days",
-      "location": "Mount Kenya, Nanyuki",
-      "description": "A challenging but rewarding hike up Africa’s second-highest peak."
-    },
-    {
-      "id": "4",
-      "name": "Amboseli National Park",
-      "price": "Ksh 67000",
-      "duration": "4 Days",
-      "location": "Taita, Kenya",
-      "description": "Enjoy views of Mt. Kilimanjaro and elephant herds."
-    },
-    {
-      "id": "5",
-      "name": "Maasai Mara",
-      "price": "Ksh 45000",
-      "duration": "3 Days",
-      "location": "Narok, Kenya",
-      "description": "Come enjoy the wildebeest migration, with a chance of having breakfast in the wild."
-    },
-    {
-      "id": "6",
-      "name": "Diani Beach",
-      "price": "Ksh 50000",
-      "duration": "5 Days",
-      "location": "Kwale, Kenya",
-      "description": "Enjoy the crystal-clear waters, luxury resorts, and thrilling water sports."
-    },
-    {
-      "id": "7",
-      "name": "Lake Naivasha",
-      "price": "Ksh 22000",
-      "duration": "2 Days",
-      "location": "Naivasha, Kenya",
-      "description": "Boat rides, bird watching, and breathtaking views of the Great Rift Valley."
-    },
-    {
-      "id": "8",
-      "name": "Samburu National Reserve",
-      "price": "Ksh 52000",
-      "duration": "4 Days",
-      "location": "Samburu, Kenya",
-      "description": "Wildlife safaris with a chance to see the ‘Samburu Special Five’."
-    },
-    {
-      "id": "9",
-      "name": "Hell's Gate National Park",
-      "price": "Ksh 18000",
-      "duration": "1 Day",
-      "location": "Naivasha, Kenya",
-      "description": "Perfect for hiking, biking, and rock climbing, with breathtaking landscapes."
-    },
-    {
-      "id": "10",
-      "name": "Tsavo National Park",
-      "price": "Ksh 60000",
-      "duration": "5 Days",
-      "location": "Taita-Taveta, Kenya",
-      "description": "Explore the vast landscapes, see lions, and visit the famous Mzima Springs."
-    }
-  ],
-  "bookings": [
-    {
-      "id": "59be",
-      "name": "Melloniah",
-      "email": "mellobadah123@gmail.com",
-      "destination": "Watamu Beaches",
-      "date": "2025-04-04",
-      "people": "3"
-    },
-    {
-      "id": "6097",
-      "name": "Makeda Mwolovi",
-      "email": "makkmwolovi@gmail.com",
-      "destination": "Camping in the Wild",
-      "date": "2025-03-05",
-      "people": "1"
-    },
-    {
-      "id": "6222",
-      "name": "mell",
-      "email": "mello.obada@student.moringaschool.com",
-      "destination": "Thika",
-      "date": "2025-02-08",
-      "people": "1"
-    },
-    {
-      "id": "e5d3",
-      "userId": "ecbb",
-      "destination": "Watamu",
-      "date": "2025-03-29",
-      "people": "2",
-      "price": "Ksh 43000"
-    }
-  ],
-  "reviews": [
-    {
-      "id": "1742994186259",
-      "name": "Dennis",
-      "rating": "4",
-      "text": "nice"
-    },
-    {
-      "id": "0f4f",
-      "name": "Mellon",
-      "destination": "Watamu beaches",
-      "text": "Awesome and clean beaches",
-      "rating": 4
-    }
-  ],
   "users": [
     {
       "id": "ecbb",
       "name": "Makeda Mwolovi",
       "email": "makkmwolovi@gmail.com",
       "lastBookedDestination": "Watamu"
+    },
+    {
+      "id": "4bfc",
+      "name": "Brian Omog",
+      "email": "brianomog@gmail.com",
+      "lastBookedDestination": "Kakamega Forest"
     }
   ],
-  "admins": [
+  "destinations": [
     {
       "id": "1",
-      "username": "admin",
-      "password": "admin123"
+      "name": "Kakamega Forest",
+      "price": 15000,
+      "duration": "2 Days",
+      "location": "Kakamega, Kenya",
+      "description": "Come explore indigenous trees with a tour guide, and get a chance at camping.",
+      "Guide_price": 5000
+    },
+    {
+      "id": "2",
+      "name": "Watamu",
+      "price": 65000,
+      "duration": "3 Days, 2 Nights",
+      "location": "Mombasa, Kenya",
+      "description": "Relax on the white sandy beaches of the Indian Ocean, in the North Coast.",
+      "Guide_price": 15000
+    }
+  ],
+  "bookings": [
+    {
+      "id": "1e0a",
+      "name": "Makeda ",
+      "email": "makkmwolovi@gmail.com",
+      "destination": "Amboseli",
+      "date": "2025-06-07",
+      "people": 2,
+      "price": 72000
+    }
+  ],
+  "reviews": [
+    {
+      "id": "7ec2",
+      "name": "Mercy",
+      "destination": "Kenyan North Coast",
+      "text": "Nice and clean beaches",
+      "rating": "5"
+    },
+    {
+      "id": "86db",
+      "name": "Juliet",
+      "text": "nice",
+      "rating": "4",
+      "destination": "Watamu Beaches"
+    }
+  ],
+  "tourGuides": [
+    {
+      "id": "1",
+      "name": "Jacob Ojiambo",
+      "languages": [
+        "English",
+        "Swahili"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Faith Mwangi",
+      "languages": [
+        "English"
+      ]
+    }
+  ],
+  "guideDestinations": [
+    {
+      "id": "1",
+      "guideId": "1",
+      "destinationId": "1"
+    },
+    {
+      "id": "2",
+      "guideId": "1",
+      "destinationId": "2"
+    },
+    {
+      "id": "3",
+      "guideId": "2",
+      "destinationId": "2"
     }
   ]
 }

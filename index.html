@@ -64,96 +64,64 @@
     <h3> Featured Destinations</h3>
     <div class="all-places"> 
 
-        <div class="destination">
+        <div class="destination" data-description="A 7-day guided hike to Mount Kenya with breathtaking views and unforgettable camping nights.">
             <img src="images/Mt-Kenyaclimbing.webp" alt="Mountain tours">
             <p> 7 Days hike, Mount Kenya</p>
             <div class="buttons"> 
-                <button class="booking" data-place="Mount Kenya" data-duration="7 days" data-price=" Ksh 27000">Book</button>
+                <button class="booking" data-place="Mount Kenya" data-duration="7 days" data-price=" 47000" data-guide-price="20000">Book</button>
                 <button class="user-review" data-place="Mount Kenya">Review Us</button>
             </div>
+            <div class="review-preview"> </div>
         </div>
 
-        <div class="destination"> 
+        <div class="destination" data-description="Enjoy 3 days and 2 nights at the serene Kenyan North Coast, with beach walks and coastal cuisine."> 
             <img src="images/watamubeaches.jpg" alt="Coastal Beaches">
-            <p> 3 Days, 2 Nights in the Kenyan North Coast</p>
+            <p> 3Days, 2 Nights, Watamu Beaches</p>
             <div class="buttons"> 
-                <button class="booking" data-place="Kenyan North Coast" data-duration="3 days" data-price="Ksh 43000">Book</button>
-                <button class="user-review" data-place="Kenyan North Coast">Review Us</button>
+                <button class="booking" data-place="Watamu Beaches" data-duration="3 days" data-price="65000" data-guide-price="15000">Book</button>
+                <button class="user-review" data-place="Watamu Beaches">Review Us</button>
             </div>
         </div>
 
-        <div class="destination">  
+        <div class="destination" data-description="Get lost in the forest with a tour guide. Enjoy fresh air, silence, and connection with nature.">  
             <img src="images/adventureinforest.jpg" alt="Explore the forest with us">
-            <p>Want some alone time with the wild? We offer that too, with a tour guide</p>
+            <p> 2 Days, Kakamega forest</p>
             <div class="buttons"> 
-                <button class="booking" data-place="Forest Adventure" data-duration="Flexible" data-price="Ksh 15000">Book</button>
-                <button class="user-review" data-place="Forest Adventure">Review Us</button>
+                <button class="booking" data-place="Kakamega Forest" data-duration="Flexible" data-price="15000" data-guide-price="5000">Book</button>
+                <button class="user-review" data-place="Kakamega Forest">Review Us</button>
             </div>
         </div>
 
-        <div class="destination"> 
+        <div class="destination" data-description="Camp in the wild for 2 days under the stars. Great for bonding, fun, and survival skills."> 
             <img src="images/campingtours.jpg" alt="Camping tours">
-            <p> Let's go camping in the wild for 2 days</p>
+            <p> 3Days, 2 Nights Amboseli</p>
             <div class="buttons"> 
-                <button class="booking" data-place="Camping Tour" data-duration="2 days" data-price="Flexible">Book</button>
-                <button class="user-review" data-place="Camping Tour">Review Us</button>
+                <button class="booking" data-place="Amboseli" data-duration="2 days" data-price=36000 data-guide-price="10000">Book</button>
+                <button class="user-review" data-place="Amboseli">Review Us</button>
             </div>
         </div>
-    
         
     </div>
 </section>
 
+<div id="descriptionModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <h3 id="modal-destination-title"></h3>
+    <p id="modal-destination-description"></p>
+  </div>
+</div>
 
 
-
-<!-- Tour Packages, Interactive Map & Contact Form (Side by Side) -->
 <section id="tour-booking-container">
 
-    <!-- Tour Packages -->
-    <section id="tour-packages" class="tour-packages">
-        <h3>Tour Packages</h3>
-
-        <div class="package">
-            <h4 id="safari-adventure">Safari Adventure</h4>
-            <p>Explore Kenya’s wildlife with an expert guide. Includes transport, meals, and accommodation. The service also includes camping if needed.</p>
-            
-            <label>
-                <input type="checkbox" class="tour-guide-option"> Include Tour Guide?
-            </label>
-            
-            <button onclick="bookTour('Safari Adventure')">Book Now</button>
-        </div>
     
-        <div class="package">
-            <h4 id="coastal-retreat">Coastal Sherehe</h4>
-            <p>Relax at the beautiful Kenyan coast with a 3-day beach tour. Includes hotel stay and activities.</p>
-            
-            <label>
-                <input type="checkbox" class="tour-guide-option"> Include Tour Guide?
-            </label>
-            
-            <button onclick="bookTour('Coastal Retreat')">Book Now</button>
-        </div>
-    
-        <div class="package">
-            <h4 id="mountain-climbing">Mountain climbing</h4>
-            <p>Challenge yourself by climbing Mount Kenya with professional guides.</p>
-            
-            <label>
-                <input type="checkbox" class="tour-guide-option"> Include Tour Guide?
-            </label>
-            
-            <button onclick="bookTour('Mountain Hiking')">Book Now</button>
-        </div>
-    </section>
-
     <!-- Booking Form -->
     <section class="booking-form">
-        <h3>Book With us a Tour and/or Tour Guide</h3>
+        <h1>Book With us a Tour and/or Tour Guide</h1>
         <form id="tourForm">
             <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name">
 
             <label for="email">Email Address:</label>
             <input type="email" id="email" name="email" required>
@@ -168,59 +136,47 @@
             <input type="number" id="people" name="people" min="1" required>
 
             <label for="price">Price:</label>
-        <input type="text" id="price" name="price" readonly>
+        <input type="number" id="price" name="price" readonly>
+        <label>
+  <input type="checkbox" id="tourGuideCheckbox" name="tourGuide">
+  Add Tour Guide
+</label>
 
             <button type="submit">Submit</button>
+            <button type="button" id="delete-booking-btn">Delete Booking</button>
         </form>
     </section>
 </section>
-    <!-- Review and Contact form-->
+
     <section class="reviews-contact-container">
+        <!-- Review Form Modal -->
+<div id="reviewModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-review-modal" style="cursor:pointer;float:right;">&times;</span>
+    <h3>Leave/Edit Review for <span id="review-destination-name"></span></h3>
+    <form id="review-form">
+      <input type="hidden" id="review-id" value="">
+      <label for="reviewerName">Your Name:</label>
+      <input type="text" id="reviewerName" required>
       
- <!-- Contact Form -->
-        <div class="contact-section">
-            <h3>Talk to Us</h3>
-            <form id="contact-form">
-                <input type="text" id="contact-name" placeholder="Your Name" required>
-                <input type="email" id="contact-email" placeholder="Your Email" required>
-                <input type="tel" id="contact-phone" placeholder="Your Phone (Optional)">
-                <textarea id="contact-message" placeholder="Your Message" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-
-        <div class="review-section">
-            <h3>User Reviews</h3>
-            
-            <!-- Reviews List -->
-            <div id="reviews-container"></div>
-        
-            <!-- Review Form -->
-         <section id="reviewForm">
-  <form id="review-form">
-    <!-- Review fields: name, destination, text, rating -->
-    <input type="text" id="reviewerName" placeholder="Your Name" required />
-    <input type="text" id="destinationReview" placeholder="Destination" required />
-    <textarea id="reviewText" placeholder="Your Review" required></textarea>
-    <input type="number" id="reviewRating" placeholder="Rating (1-5)" min="1" max="5" required />
-    <button type="submit">Submit Review</button>
-  </form>
-
-  <!-- ⭐ Add this to display reviews -->
-  <div id="review-display" class="mt-6">
-    <h3>What Others Are Saying:</h3>
-    <ul id="review-list"></ul>
+      <label for="reviewText">Review:</label>
+      <textarea id="reviewText" required></textarea>
+      
+      <label for="reviewRating">Rating (1-5):</label>
+      <input type="number" id="reviewRating" min="1" max="5" required>
+      
+      <button type="submit">Submit Review</button>
+      <button type="button" id="delete-review-btn" style="display:none; margin-left:10px; background-color:#e74c3c; color:white;">Delete Review</button>
+    </form>
   </div>
-</section>
+</div>
 
-        </div>
-    </section>
-    
-
+      
 </main>
 
 <!-- footer section -->
 <footer id="contact">
+     
     <div class="footer-container">
         <p><strong>Phone:</strong> <a href="tel:+254700123456">+254 700 123 456</a></p>
         <p><strong>WhatsApp:</strong> 
@@ -233,5 +189,22 @@
     <p class="copyright">&copy; 2025 Globetrek Tours and Tour Guides. All Rights Reserved.</p>
 </footer>
 <script src="script js"></script>
+<div id="reviewModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-review">&times;</span>
+    <h3 id="review-modal-title">Leave a Review</h3>
+    <form id="reviewForm">
+      <input type="hidden" id="destinationName" name="destinationName" />
+      <label for="reviewerName">Your Name:</label>
+      <input type="text" id="reviewerName" name="reviewerName" required />
+
+      <label for="reviewText">Your Review:</label>
+      <textarea id="reviewText" name="reviewText" required></textarea>
+
+      <button type="submit">Submit Review</button>
+      <button type="button" id="deleteReviewBtn" style="display:none; background-color: red; color: white;">Delete Review</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>
