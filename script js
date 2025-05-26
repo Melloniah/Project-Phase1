@@ -202,6 +202,8 @@ document.querySelectorAll(".booking").forEach(btn => {
       deleteBookingBtn.style.display = "inline-block";
     }
 
+    // Show the booking form container
+    document.getElementById("tour-booking-container").style.display = "block";
     // Scroll booking form into view
     document.getElementById("tour-booking-container").scrollIntoView({ behavior: "smooth" });
   });

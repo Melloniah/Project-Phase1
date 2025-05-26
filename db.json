@@ -16,21 +16,67 @@
   "destinations": [
     {
       "id": "1",
-      "name": "Kakamega Forest",
+      "name": "Mount Kenya",
       "price": 15000,
-      "duration": "2 Days",
-      "location": "Kakamega, Kenya",
-      "description": "Come explore indigenous trees with a tour guide, and get a chance at camping.",
-      "Guide_price": 5000
+      "duration": "3 days",
+      "location": "Central Kenya",
+      "description": "Experience the breathtaking beauty of Mount Kenya with guided hikes, wildlife spotting, and stunning alpine views."
     },
     {
       "id": "2",
       "name": "Watamu",
-      "price": 65000,
-      "duration": "3 Days, 2 Nights",
-      "location": "Mombasa, Kenya",
-      "description": "Relax on the white sandy beaches of the Indian Ocean, in the North Coast.",
-      "Guide_price": 15000
+      "price": 12000,
+      "duration": "2 days",
+      "location": "Coast",
+      "description": "Relax in the white sandy beaches of Watamu, enjoy snorkeling in marine parks, and explore coastal Swahili culture."
+    },
+    {
+      "id": "3",
+      "name": "Kakamega Forest",
+      "price": 10000,
+      "duration": "2 days",
+      "location": "Western Kenya",
+      "description": "Visit Kenya’s only tropical rainforest to see rare birds, butterflies, and ancient trees in a serene environment."
+    },
+    {
+      "id": "4",
+      "name": "Amboseli",
+      "price": 18000,
+      "duration": "3 days",
+      "location": "Southern Kenya",
+      "description": "Explore Amboseli National Park with its iconic views of Mount Kilimanjaro and herds of elephants roaming the plains."
+    },
+    {
+      "id": "5",
+      "name": "Maasai Mara",
+      "price": 25000,
+      "duration": "4 days",
+      "location": "Southwestern Kenya",
+      "description": "Witness the Great Migration, interact with Maasai culture, and go on thrilling game drives in the world-famous Mara."
+    },
+    {
+      "id": "6",
+      "name": "Diani",
+      "price": 14000,
+      "duration": "3 days",
+      "location": "South Coast",
+      "description": "Enjoy luxury beach resorts, vibrant nightlife, and water sports in the tropical paradise of Diani."
+    },
+    {
+      "id": "7",
+      "name": "Jinja",
+      "price": 13000,
+      "duration": "2 days",
+      "location": "Eastern Uganda",
+      "description": "Adventure capital of East Africa with white-water rafting, bungee jumping, and the source of the Nile."
+    },
+    {
+      "id": "8",
+      "name": "Kabaale Lake Bunyonyi",
+      "price": 16000,
+      "duration": "3 days",
+      "location": "Western Uganda",
+      "description": "Discover crater lakes, rolling hills, and traditional Ugandan hospitality in the scenic Kabaale region."
     }
   ],
   "bookings": [
