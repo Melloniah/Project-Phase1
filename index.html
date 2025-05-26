@@ -26,7 +26,7 @@
             <li><a href="#Coastal-Retreat">Visit Beaches</a></li>
                     <li><a href="#mountain-climbing">Visit Mountains</a></li>
                     <li><a href="#safari-adventure">The Wild</a></li>
-                    <li><a href="#safari-adventure">Camping</a></li>
+                    <li><a href="#camping">Camping</a></li>
             </ul>
         </li>
         
@@ -40,9 +40,11 @@
     </ul>
         
     <div class="search-container"> 
-        <input type="text" placeholder="Search tours.." class="search-bar">
-        <button type="submit" class="search-btn"> Search</button>
+        <input type="text" placeholder="Search destination.." class="search-bar" id="searchInput">
+        <button type="submit" class="search-btn" id="searchButton"> Search</button>
      </div>
+     <p id="searchResult" style="color: white; margin-top: 10px;"></p>
+
         </nav>
     </header>
     
@@ -62,10 +64,11 @@
 <!-- places to visit full width -->
 <section class="places-to-visit-container">   
     <h3> Popular Destinations</h3>
-    <p class="intro-paragraph"> "Discover the vibrant beauty and rich heritage of our Popular Destinations, where breathtaking scenery meets unforgettable cultural experiences. From  the highest mountain in Kenya, Mount Kenya hike, to enjoying beautiful clean beaches in the North Coast. Every moment promises adventure and connection."</p>
+    <p class="intro-paragraph"> "Discover the vibrant beauty and rich heritage of our Popular Destinations, where breathtaking scenery meets unforgettable cultural experiences. 
+        From  the highest mountain in Kenya, Mount Kenya hike, to enjoying beautiful clean beaches in the North Coast, to pumping your adrenaline by bungee jumping in Jinja. Every moment promises adventure and connection."</p>
     <div class="all-places"> 
 
-        <div class="destination" data-description="A 7-day guided hike to Mount Kenya with breathtaking views and unforgettable camping nights.">
+        <div id="mountain-climbing" class="destination" data-description="A 7-day guided hike to Mount Kenya with breathtaking views and unforgettable camping nights.">
             <img src="images/Mt-Kenyaclimbing.webp" alt="Mountain tours">
             <p> 7 Days hike, Mount Kenya</p>
             <div class="buttons"> 
@@ -75,7 +78,7 @@
             <div class="review-preview"> </div>
         </div>
 
-        <div class="destination" data-description="Enjoy 3 days and 2 nights at the serene Kenyan North Coast, with beach walks and coastal cuisine."> 
+        <div  id="Coastal-Retreat" class="destination" data-description="Enjoy 3 days and 2 nights at the serene Kenyan North Coast, with beach walks and coastal cuisine."> 
             <img src="images/watamubeaches.jpg" alt="Coastal Beaches">
             <p> 3Days, 2 Nights, Watamu Beaches</p>
             <div class="buttons"> 
@@ -84,7 +87,7 @@
             </div>
         </div>
 
-        <div class="destination" data-description="Get lost in the forest with a tour guide. Enjoy fresh air, silence, and connection with nature.">  
+        <div  id="safari-adventure" class="destination" data-description="Get lost in the forest with a tour guide. Enjoy fresh air, silence, and connection with nature.">  
             <img src="images/adventureinforest.jpg" alt="Explore the forest with us">
             <p> 2 Days, Kakamega forest</p>
             <div class="buttons"> 
@@ -93,7 +96,7 @@
             </div>
         </div>
 
-        <div class="destination" data-description="Camp in the wild for 2 days under the stars. Great for bonding, fun, and survival skills."> 
+        <div id="camping" class="destination" data-description="Camp in the wild for 2 days under the stars. Great for bonding, fun, and survival skills."> 
             <img src="images/campingtours.jpg" alt="Camping tours">
             <p> 3Days, 2 Nights Amboseli</p>
             <div class="buttons"> 
@@ -101,7 +104,42 @@
                 <button class="user-review" data-place="Amboseli">Review Us</button>
             </div>
         </div>
-        
+        <div id="safari-adventure" class="destination" data-description="Witness the Great Migration, interact with Maasai culture, and go on thrilling game drives in the world-famous Mara.">
+  <img src="images/Blue-Wildebeest-Migration-750x450.jpg" alt="Maasai Mara">
+  <p>4 days, Maasai Mara</p>
+  <div class="buttons">
+    <button class="booking" data-place="Maasai Mara" data-duration="4 days" data-price="25000">Book</button>
+    <button class="user-review" data-place="Maasai Mara">Review Us</button>
+  </div>
+</div> 
+
+<div class="destination" data-description="Enjoy luxury beach resorts, vibrant nightlife, and water sports in the tropical paradise of Diani.">
+  <img src="images/diani-sea-resort.webp" alt="Diani">
+  <p>3 days, Diani</p>
+  <div class="buttons">
+    <button class="booking" data-place="Diani" data-duration="3 days" data-price="14000">Book</button>
+    <button class="user-review" data-place="Diani">Review Us</button>
+  </div>
+</div>
+<div class="destination" data-description="Adventure capital of East Africa with white-water rafting, bungee jumping, and the source of the Nile.">
+  <img src="images/bungee-jumping-jinja.jpg" alt="Jinja">
+  <p>2 days, Jinja</p>
+  <div class="buttons">
+    <button class="booking" data-place="Jinja" data-duration="2 days" data-price="13000">Book</button>
+    <button class="user-review" data-place="Jinja">Review Us</button>
+  </div>
+</div>
+
+<div class="destination" data-description="Discover crater lakes, rolling hills, and traditional Ugandan hospitality in the scenic Kabaale region.">
+  <img src="images/lake-bunyonyi.jpg" alt="Kabaale Lake Bunyonyi">
+  <p>3 days, Kabaale Lake Bunyonyi</p>
+  <div class="buttons">
+    <button class="booking" data-place="Kabaale Lake Bunyonyi" data-duration="3 days" data-price="16000">Book</button>
+    <button class="user-review" data-place="Kabaale Lake Bunyonyi">Review Us</button>
+  </div>
+</div>
+
+
     </div>
 </section>
 
@@ -177,19 +215,41 @@
 
 <!-- footer section -->
 <footer id="contact">
-     
-    <div class="footer-container">
-        <p><strong>Phone:</strong> <a href="tel:+254700123456">+254 700 123 456</a></p>
-        <p><strong>WhatsApp:</strong> 
-            <a href="https://wa.me/254700123456" target="_blank">Chat with us</a>
-        </p>
-        <p><strong>Email:</strong> 
-            <a href="mailto:info@globetrek.com">info@globetrek.com</a>
-        </p>
+  <div class="footer-container">
+    
+    <!-- Contact Info -->
+    <div class="footer-section contact-info">
+      <h4>Contact Us</h4>
+      <p><strong>Phone:</strong> <a href="tel:+254700123456">+254 700 123 456</a></p>
+      <p><strong>WhatsApp:</strong> <a href="https://wa.me/254700123456" target="_blank">Chat with us</a></p>
+      <p><strong>Email:</strong> <a href="mailto:info@globetrek.com">info@globetrek.com</a></p>
     </div>
-    <p class="copyright">&copy; 2025 Globetrek Tours and Tour Guides. All Rights Reserved.</p>
+
+    <!-- Direction Links -->
+    <div class="footer-section footer-links">
+      <h4>Quick Links</h4>
+      <a href="#">Home</a>
+      <a href="#Coastal-Retreat">Destinations</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Social Media -->
+    <div class="footer-section social-media">
+      <h4>Follow Us</h4>
+      <a href="#" target="_blank">Facebook</a><br>
+      <a href="#" target="_blank">Instagram</a><br>
+      <a href="#" target="_blank">Twitter</a>
+    </div>
+
+  </div>
+
+  <p class="copyright">
+    &copy; 2025 Globetrek Tours and Tour Guides. All Rights Reserved.
+  </p>
 </footer>
-<script src="script js"></script>
+
+
 <div id="reviewModal" class="modal" style="display:none;">
   <div class="modal-content">
     <span class="close-review">&times;</span>
@@ -207,5 +267,6 @@
     </form>
   </div>
 </div>
+<script src="script js"></script>
 </body>
 </html>

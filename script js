@@ -17,6 +17,58 @@ const tourGuideCheckbox = document.getElementById('tourGuideCheckbox');  // Chec
 const peopleInput = document.getElementById('people');                   // Number of people input
 const priceInput = document.getElementById('price');                     // Total price input
 
+
+const destinations = [
+  "Mount Kenya",
+  "Watamu",
+  "Kakamega Forest",
+  "Amboseli",
+  "Maasai Mara",
+  "Diani",
+  "Jinja",
+  "Kabaale Lake Bunyonyi"
+];
+
+const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchButton");
+const resultDisplay = document.getElementById("searchResult");
+
+searchButton.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const query = searchInput.value.trim().toLowerCase();
+  if (query === "") {
+    resultDisplay.textContent = "Please enter a destination.";
+    return;
+  }
+
+  // Get all destination cards
+  const allDestinations = document.querySelectorAll(".destination");
+
+  let found = false;
+  allDestinations.forEach(dest => {
+    const place = dest.querySelector(".booking")?.dataset.place?.toLowerCase();
+    if (place && place.includes(query)) {
+      dest.scrollIntoView({ behavior: "smooth", block: "start" });
+      resultDisplay.innerHTML = `Yes! We offer trips to <strong>${place}</strong>. Scroll below to view and book.`;
+      found = true;
+    }
+  });
+
+  if (!found) {
+    resultDisplay.textContent = `Sorry, we currently don't offer trips to "${searchInput.value}".`;
+  }
+   resetResult(); // Call the timeout after the result is shown
+});
+// Function to reset message after 5 seconds
+function resetResult() {
+  setTimeout(() => {
+    resultDisplay.textContent = "";
+    searchInput.value = "";
+  }, 5000);
+}
+
+
 // Arrays to hold fetched reviews and bookings data
 let reviews = [];
 let bookings = [];
@@ -204,6 +256,7 @@ document.querySelectorAll(".booking").forEach(btn => {
 
     // Show the booking form container
     document.getElementById("tour-booking-container").style.display = "block";
+
     // Scroll booking form into view
     document.getElementById("tour-booking-container").scrollIntoView({ behavior: "smooth" });
   });

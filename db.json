@@ -104,6 +104,13 @@
       "text": "nice",
       "rating": "4",
       "destination": "Watamu Beaches"
+    },
+    {
+      "id": "b7fd",
+      "name": "denn",
+      "text": "nice place",
+      "rating": "4",
+      "destination": "Amboseli"
     }
   ],
   "tourGuides": [
