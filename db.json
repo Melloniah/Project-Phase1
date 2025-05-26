@@ -20,7 +20,8 @@
       "price": 15000,
       "duration": "3 days",
       "location": "Central Kenya",
-      "description": "Experience the breathtaking beauty of Mount Kenya with guided hikes, wildlife spotting, and stunning alpine views."
+      "description": "Experience the breathtaking beauty of Mount Kenya with guided hikes, wildlife spotting, and stunning alpine views.",
+      "tourGuideIds": ["103"]
     },
     {
       "id": "2",
@@ -29,6 +30,7 @@
       "duration": "2 days",
       "location": "Coast",
       "description": "Relax in the white sandy beaches of Watamu, enjoy snorkeling in marine parks, and explore coastal Swahili culture."
+      ,"tourGuideIds": ["101", "102"]
     },
     {
       "id": "3",
@@ -36,7 +38,8 @@
       "price": 10000,
       "duration": "2 days",
       "location": "Western Kenya",
-      "description": "Visit Kenya’s only tropical rainforest to see rare birds, butterflies, and ancient trees in a serene environment."
+      "description": "Visit Kenya’s only tropical rainforest to see rare birds, butterflies, and ancient trees in a serene environment.",
+     "tourGuideIds": ["104"]
     },
     {
       "id": "4",
@@ -52,7 +55,8 @@
       "price": 25000,
       "duration": "4 days",
       "location": "Southwestern Kenya",
-      "description": "Witness the Great Migration, interact with Maasai culture, and go on thrilling game drives in the world-famous Mara."
+      "description": "Witness the Great Migration, interact with Maasai culture, and go on thrilling game drives in the world-famous Mara.",
+       "tourGuideIds": ["105"]
     },
     {
       "id": "6",
@@ -68,7 +72,8 @@
       "price": 13000,
       "duration": "2 days",
       "location": "Eastern Uganda",
-      "description": "Adventure capital of East Africa with white-water rafting, bungee jumping, and the source of the Nile."
+      "description": "Adventure capital of East Africa with white-water rafting, bungee jumping, and the source of the Nile.",
+       "tourGuideIds": ["102"]
     },
     {
       "id": "8",
@@ -76,7 +81,8 @@
       "price": 16000,
       "duration": "3 days",
       "location": "Western Uganda",
-      "description": "Discover crater lakes, rolling hills, and traditional Ugandan hospitality in the scenic Kabaale region."
+      "description": "Discover crater lakes, rolling hills, and traditional Ugandan hospitality in the scenic Kabaale region.",
+    "tourGuideIds": ["103"]
     }
   ],
   "bookings": [
@@ -128,7 +134,31 @@
       "languages": [
         "English"
       ]
+    },
+    "tourGuides": [
+    {
+      "id": "103",
+      "name": "James Kimani",
+      "experience": "5 years",
+      "languages": ["English", "Kiswahili", Kikuyu],
+      "rating": 4.7
+    },
+    {
+      "id": "104",
+      "name": "Aisha Mohammed",
+      "experience": "3 years",
+      "languages": ["English", "Portuguese, KIswahili, Arabic"],
+      "rating": 4.5
+    },
+    {
+      "id": "105",
+      "name": "Peter Ochieng",
+      "experience": "4 years",
+      "languages": ["English", "Swahili, Luo, French"],
+      "rating": 4.6
     }
+    
+  ]
   ],
   "guideDestinations": [
     {
